@@ -82,7 +82,7 @@ module.exports = gql`
     """
 		Customized: Organization id the user is part of
 		"""
-		organization: ID!
+		organization: ID
 	}
 
 	input CreateRecordInput {
@@ -149,7 +149,7 @@ module.exports = gql`
 		"""
 		Customized: Organization id the user is part of
 		"""
-		organization: ID!
+		organization: ID
 	}
 
 	type CreateRecordPayload {
