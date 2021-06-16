@@ -3,7 +3,7 @@
 const Record = require('../models/Record')
 const aggregateActiveVisitors = require('../aggregations/aggregateActiveVisitors')
 
-const getActiveVisitors = async (ids, dateDetails) => {
+const getActiveVisitors = async (ids, dateDetails, opts = {}) => {
 
 	const enhance = (entries) => {
 		const entry = entries[0]
@@ -12,7 +12,7 @@ const getActiveVisitors = async (ids, dateDetails) => {
 
 	return enhance(
 		await Record.aggregate(
-			aggregateActiveVisitors(ids, dateDetails)
+			aggregateActiveVisitors(ids, dateDetails, opts)
 		)
 	)
 

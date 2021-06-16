@@ -9,12 +9,12 @@ const intervals = require('../constants/intervals')
 const createArray = require('../utils/createArray')
 const matchesDate = require('../utils/matchesDate')
 
-const get = async (ids, type, interval, limit, dateDetails) => {
+const get = async (ids, type, interval, limit, dateDetails, opts = {}) => {
 
 	const aggregation = (() => {
 
-		if (type === constants.VIEWS_TYPE_UNIQUE) return aggregateViews(ids, true, interval, limit, dateDetails)
-		if (type === constants.VIEWS_TYPE_TOTAL) return aggregateViews(ids, false, interval, limit, dateDetails)
+		if (type === constants.VIEWS_TYPE_UNIQUE) return aggregateViews(ids, true, interval, limit, dateDetails, opts)
+		if (type === constants.VIEWS_TYPE_TOTAL) return aggregateViews(ids, false, interval, limit, dateDetails, opts)
 
 	})()
 

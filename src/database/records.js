@@ -28,6 +28,21 @@ const response = (entry) => ({
 
 })
 
+/** Customized **/
+const all = async () => {
+
+	const enhance = (entries) => {
+		return entries
+			.map(response)
+	}
+
+	return enhance(
+		await Record.find({})
+	)
+
+}
+/** Customized **/
+
 const add = async (data) => {
 
 	const enhance = (entry) => {
@@ -124,5 +139,6 @@ module.exports = {
 	add,
 	update,
 	anonymize,
-	del
+	del,
+	all
 }

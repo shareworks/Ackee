@@ -3,7 +3,7 @@
 const intervals = require('../constants/intervals')
 const matchDomains = require('../stages/matchDomains')
 
-module.exports = (ids, unique, interval, limit, dateDetails) => {
+module.exports = (ids, unique, interval, limit, dateDetails, opts = {}) => {
 
 	const aggregation = [
 		matchDomains(ids),
@@ -20,6 +20,10 @@ module.exports = (ids, unique, interval, limit, dateDetails) => {
 	if (unique === true) aggregation[0].$match.clientId = {
 		$exists: true,
 		$ne: null
+	}
+
+	if (opts.organization) {
+		aggregation[0].$match.organization = opts.organization
 	}
 
 	aggregation[0].$match.created = { $gte: dateDetails.includeFnByInterval(interval)(limit) }

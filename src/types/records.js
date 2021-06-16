@@ -180,4 +180,11 @@ module.exports = gql`
 		"""
 		updateRecord(id: ID!): UpdateRecordPayload!
 	}
+	
+  type Query {
+		"""
+		Customized: Data of all existing records.
+		"""
+		records: [Record!]
+	}
 `

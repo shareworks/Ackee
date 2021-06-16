@@ -7,10 +7,16 @@ const messages = require('../utils/messages')
 const pipe = require('../utils/pipe')
 const requireAuth = require('../middlewares/requireAuth')
 const blockDemoMode = require('../middlewares/blockDemoMode')
+const mongoose = require('mongoose');
 
 module.exports = {
 	Domain: {
-		facts: (obj) => obj,
+		facts: (obj, _) => {
+			return {
+				...obj,
+				..._.organization && { organization: mongoose.Types.ObjectId(_.organization) }
+			}
+		},
 		statistics: (obj) => obj
 	},
 	Query: {

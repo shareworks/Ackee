@@ -8,11 +8,11 @@ const intervals = require('../constants/intervals')
 const createArray = require('../utils/createArray')
 const matchesDate = require('../utils/matchesDate')
 
-const get = async (ids, interval, limit, dateDetails) => {
+const get = async (ids, interval, limit, dateDetails, opts = {}) => {
 
 	const aggregation = (() => {
 
-		return aggregateDurations(ids, interval, limit, dateDetails)
+		return aggregateDurations(ids, interval, limit, dateDetails, opts)
 
 	})()
 

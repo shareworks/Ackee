@@ -6,7 +6,7 @@ const projectDuration = require('../stages/projectDuration')
 const projectMinInterval = require('../stages/projectMinInterval')
 const matchLimit = require('../stages/matchLimit')
 
-module.exports = (ids, interval, limit, dateDetails) => {
+module.exports = (ids, interval, limit, dateDetails, opts) => {
 
 	const aggregation = [
 		matchDomains(ids),
@@ -24,6 +24,10 @@ module.exports = (ids, interval, limit, dateDetails) => {
 	]
 
 	aggregation[0].$match.created = { $gte: dateDetails.includeFnByInterval(interval)(limit) }
+
+	if (opts.organization) {
+		aggregation[0].$match.organization = opts.organization
+	}
 
 	const dateExpression = { date: '$created', timezone: dateDetails.userTimeZone }
 	const matchDay = [ intervals.INTERVALS_DAILY ].includes(interval)

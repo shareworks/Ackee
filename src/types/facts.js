@@ -35,8 +35,8 @@ module.exports = gql`
 
 	type Query {
 		"""
-		Facts of all domains combined. Usually simple data that can be represented in one value.
+		Customized: Facts of all domains combined. Usually simple data that can be represented in one value.
 		"""
-		facts: Facts!
+		facts(organization: ID): Facts!
 	}
 `
