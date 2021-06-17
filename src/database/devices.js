@@ -7,19 +7,19 @@ const aggregateRecentRecords = require('../aggregations/aggregateRecentRecords')
 const sortings = require('../constants/sortings')
 const constants = require('../constants/devices')
 
-const get = async (ids, sorting, type, range, limit, dateDetails) => {
+const get = async (ids, sorting, type, range, limit, dateDetails, opts = {}) => {
 
 	const aggregation = (() => {
 
 		if (type === constants.DEVICES_TYPE_NO_MODEL) {
-			if (sorting === sortings.SORTINGS_TOP) return aggregateTopRecords(ids, [ 'deviceManufacturer' ], range, limit, dateDetails)
-			if (sorting === sortings.SORTINGS_NEW) return aggregateNewRecords(ids, [ 'deviceManufacturer' ], limit)
-			if (sorting === sortings.SORTINGS_RECENT) return aggregateRecentRecords(ids, [ 'deviceManufacturer' ], limit)
+			if (sorting === sortings.SORTINGS_TOP) return aggregateTopRecords(ids, [ 'deviceManufacturer' ], range, limit, dateDetails, false, opts)
+			if (sorting === sortings.SORTINGS_NEW) return aggregateNewRecords(ids, [ 'deviceManufacturer' ], limit, false, opts)
+			if (sorting === sortings.SORTINGS_RECENT) return aggregateRecentRecords(ids, [ 'deviceManufacturer' ], limit, false, opts)
 		}
 		if (type === constants.DEVICES_TYPE_WITH_MODEL) {
-			if (sorting === sortings.SORTINGS_TOP) return aggregateTopRecords(ids, [ 'deviceManufacturer', 'deviceName' ], range, limit, dateDetails)
-			if (sorting === sortings.SORTINGS_NEW) return aggregateNewRecords(ids, [ 'deviceManufacturer', 'deviceName' ], limit)
-			if (sorting === sortings.SORTINGS_RECENT) return aggregateRecentRecords(ids, [ 'deviceManufacturer', 'deviceName' ], limit)
+			if (sorting === sortings.SORTINGS_TOP) return aggregateTopRecords(ids, [ 'deviceManufacturer', 'deviceName' ], range, limit, dateDetails, false, opts)
+			if (sorting === sortings.SORTINGS_NEW) return aggregateNewRecords(ids, [ 'deviceManufacturer', 'deviceName' ], limit, false, opts)
+			if (sorting === sortings.SORTINGS_RECENT) return aggregateRecentRecords(ids, [ 'deviceManufacturer', 'deviceName' ], limit, false, opts)
 		}
 
 	})()

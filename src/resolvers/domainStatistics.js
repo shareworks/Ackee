@@ -82,7 +82,7 @@ module.exports = {
 		}),
 		languages: pipe(requireAuth, async (domain, _, { dateDetails }) => {
 
-			const { sorting, range, limit }= _
+			const { sorting, range, limit } = _
 			const opts = getOpts(_)
 			const ids = await domainIds(domain)
 			return languages.get(ids, sorting, range, limit, dateDetails, opts)
