@@ -4,6 +4,7 @@ const { utcToZonedTime } = require('date-fns-tz')
 
 const Record = require('../models/Record')
 const aggregateViews = require('../aggregations/aggregateViews')
+const aggregateAllViews = require('../aggregations/aggregateAllViews')
 const constants = require('../constants/views')
 const intervals = require('../constants/intervals')
 const createArray = require('../utils/createArray')
@@ -55,9 +56,28 @@ const get = async (ids, type, interval, limit, dateDetails, opts = {}) => {
 	return enhance(
 		await Record.aggregate(aggregation)
 	)
+}
 
+const all = async (ids, type, interval, limit, dateDetails, opts = {}) => {
+
+	const enhance = (entries) => {
+		const entry = entries[0]
+		return entry == null ? 0 : entry.count
+	}
+
+	const aggregation = (() => {
+
+		if (type === constants.VIEWS_TYPE_UNIQUE) return aggregateAllViews(ids, true, interval, limit, dateDetails, opts)
+		if (type === constants.VIEWS_TYPE_TOTAL) return aggregateAllViews(ids, false, interval, limit, dateDetails, opts)
+
+	})()
+
+	return enhance(
+		await Record.aggregate(aggregation)
+	)
 }
 
 module.exports = {
-	get
+	get,
+	all
 }

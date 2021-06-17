@@ -26,7 +26,14 @@ module.exports = (ids, unique, interval, limit, dateDetails, opts = {}) => {
 		aggregation[0].$match.organization = opts.organization
 	}
 
-	aggregation[0].$match.created = { $gte: dateDetails.includeFnByInterval(interval)(limit) }
+	if (opts.minDate || opts.maxDate) {
+		aggregation[0].$match.created = {
+			...opts.minDate && { $gte: new Date(opts.minDate) },
+			...opts.maxDate && { $lt: new Date(opts.maxDate) }
+		}
+	} else {
+		aggregation[0].$match.created = { $gte: dateDetails.includeFnByInterval(interval)(limit) }
+	}
 
 	const dateExpression = { date: '$created', timezone: dateDetails.userTimeZone }
 	const matchDay = [ intervals.INTERVALS_DAILY ].includes(interval)

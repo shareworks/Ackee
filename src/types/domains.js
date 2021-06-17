@@ -18,7 +18,7 @@ module.exports = gql`
 		"""
 		Facts about a domain. Usually simple data that can be represented in one value.
 		"""
-		facts(organization: ID): Facts!
+		facts: Facts!
 		"""
 		Statistics of a domain. Usually data that needs to be represented in a list or chart.
 		"""

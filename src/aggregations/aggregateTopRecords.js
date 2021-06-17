@@ -3,7 +3,7 @@
 const ranges = require('../constants/ranges')
 const matchDomains = require('../stages/matchDomains')
 
-module.exports = (ids, properties, range, limit, dateDetails, or) => {
+module.exports = (ids, properties, range, limit, dateDetails, or, opts = {}) => {
 
 	const aggregation = [
 		matchDomains(ids),
@@ -24,6 +24,10 @@ module.exports = (ids, properties, range, limit, dateDetails, or) => {
 			$limit: limit
 		}
 	]
+
+	if (opts.organization) {
+		aggregation[0].$match.organization = opts.organization
+	}
 
 	properties.forEach((property) => {
 		if (or === true) {
@@ -51,6 +55,13 @@ module.exports = (ids, properties, range, limit, dateDetails, or) => {
 
 	if (range === ranges.RANGES_LAST_6_MONTHS) {
 		aggregation[0].$match.created = { $gte: dateDetails.lastMonths(6) }
+	}
+
+	if (opts.minDate || opts.maxDate) {
+		aggregation[0].$match.created = {
+			...opts.minDate && { $gte: new Date(opts.minDate) },
+			...opts.maxDate && { $lt: new Date(opts.maxDate) }
+		}
 	}
 
 	return aggregation
