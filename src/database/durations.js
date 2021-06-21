@@ -24,7 +24,7 @@ const get = async (ids, interval, limit, dateDetails, opts = {}) => {
 
 		return createArray(limit).map((_, index) => {
 
-			const date = dateDetails.lastFnByInterval(interval)(index)
+			const date = dateDetails.lastFnByInterval(interval)(index, opts.maxDate)
 
 			// Database entries include the day, month and year in the
 			// timezone of the user. We therefore need to match it against a
