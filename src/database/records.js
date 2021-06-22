@@ -20,8 +20,28 @@ const response = (entry) => ({
 	browserWidth: entry.browserWidth,
 	browserHeight: entry.browserHeight,
 	created: entry.created,
-	updated: entry.updated
+	updated: entry.updated,
+
+	/** Customized **/
+	organization: entry.organization
+	/** Customized **/
+
 })
+
+/** Customized **/
+const all = async () => {
+
+	const enhance = (entries) => {
+		return entries
+			.map(response)
+	}
+
+	return enhance(
+		await Record.find({})
+	)
+
+}
+/** Customized **/
 
 const add = async (data) => {
 
@@ -47,7 +67,11 @@ const add = async (data) => {
 			browserName: data.browserName,
 			browserVersion: data.browserVersion,
 			browserWidth: data.browserWidth,
-			browserHeight: data.browserHeight
+			browserHeight: data.browserHeight,
+
+			/** Customized **/
+			organization: data.organization
+			/** Customized **/
 		})
 	)
 
@@ -115,5 +139,6 @@ module.exports = {
 	add,
 	update,
 	anonymize,
-	del
+	del,
+	all
 }

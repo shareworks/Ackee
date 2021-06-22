@@ -6,6 +6,8 @@ const identifier = require('../utils/identifier')
 const messages = require('../utils/messages')
 const domains = require('../database/domains')
 const records = require('../database/records')
+const pipe = require('../utils/pipe')
+const requireAuth = require('../middlewares/requireAuth')
 
 const normalizeSiteLocation = (siteLocation) => {
 
@@ -64,6 +66,16 @@ const polish = (obj) => {
 }
 
 module.exports = {
+	/** Customized **/
+	Query: {
+		records: pipe(requireAuth, async () => {
+
+			return records.all()
+
+		})
+	},
+	/** Customized **/
+
 	Mutation: {
 		createRecord: async (parent, { domainId, input }, { ip, userAgent, isIgnored }) => {
 

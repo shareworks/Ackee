@@ -12,61 +12,80 @@ const languages = require('../database/languages')
 const pipe = require('../utils/pipe')
 const domainIds = require('../utils/domainIds')
 const requireAuth = require('../middlewares/requireAuth')
+const getOpts = require('../utils/getOpts')
 
 module.exports = {
 	DomainStatistics: {
-		views: pipe(requireAuth, async (domain, { type, interval, limit }, { dateDetails }) => {
+		views: pipe(requireAuth, async (domain, _, { dateDetails }) => {
 
+			const { type, interval, limit } = _
+			const opts = getOpts(_)
 			const ids = await domainIds(domain)
-			return views.get(ids, type, interval, limit, dateDetails)
+			return views.get(ids, type, interval, (opts.dayDifference || limit), dateDetails, opts)
 
 		}),
-		pages: pipe(requireAuth, async (domain, { sorting, range, limit }, { dateDetails }) => {
+		pages: pipe(requireAuth, async (domain, _, { dateDetails }) => {
 
+			const { sorting, range, limit } = _
+			const opts = getOpts(_)
 			const ids = await domainIds(domain)
-			return pages.get(ids, sorting, range, limit, dateDetails)
+			return pages.get(ids, sorting, range, limit, dateDetails, opts)
 
 		}),
-		referrers: pipe(requireAuth, async (domain, { sorting, type, range, limit }, { dateDetails }) => {
+		referrers: pipe(requireAuth, async (domain, _, { dateDetails }) => {
 
+			const { sorting, type, range, limit } = _
+			const opts = getOpts(_)
 			const ids = await domainIds(domain)
-			return referrers.get(ids, sorting, type, range, limit, dateDetails)
+			return referrers.get(ids, sorting, type, range, limit, dateDetails, opts)
 
 		}),
-		durations: pipe(requireAuth, async (domain, { interval, limit }, { dateDetails }) => {
+		durations: pipe(requireAuth, async (domain, _, { dateDetails }) => {
 
+			const { interval, limit } = _
+			const opts = getOpts(_)
 			const ids = await domainIds(domain)
-			return durations.get(ids, interval, limit, dateDetails)
+			return durations.get(ids, interval, (opts.dayDifference || limit), dateDetails, opts)
 
 		}),
-		systems: pipe(requireAuth, async (domain, { sorting, type, range, limit }, { dateDetails }) => {
+		systems: pipe(requireAuth, async (domain, _, { dateDetails }) => {
 
+			const { sorting, type, range, limit } = _
+			const opts = getOpts(_)
 			const ids = await domainIds(domain)
-			return systems.get(ids, sorting, type, range, limit, dateDetails)
+			return systems.get(ids, sorting, type, range, limit, dateDetails, opts)
 
 		}),
-		devices: pipe(requireAuth, async (domain, { sorting, type, range, limit }, { dateDetails }) => {
+		devices: pipe(requireAuth, async (domain, _, { dateDetails }) => {
 
+			const { sorting, type, range, limit } = _
+			const opts = getOpts(_)
 			const ids = await domainIds(domain)
-			return devices.get(ids, sorting, type, range, limit, dateDetails)
+			return devices.get(ids, sorting, type, range, limit, dateDetails, opts)
 
 		}),
-		browsers: pipe(requireAuth, async (domain, { sorting, type, range, limit }, { dateDetails }) => {
+		browsers: pipe(requireAuth, async (domain, _, { dateDetails }) => {
 
+			const { sorting, type, range, limit } = _
+			const opts = getOpts(_)
 			const ids = await domainIds(domain)
-			return browsers.get(ids, sorting, type, range, limit, dateDetails)
+			return browsers.get(ids, sorting, type, range, limit, dateDetails, opts)
 
 		}),
-		sizes: pipe(requireAuth, async (domain, { sorting, type, range, limit }, { dateDetails }) => {
+		sizes: pipe(requireAuth, async (domain, _, { dateDetails }) => {
 
+			const { sorting, type, range, limit } = _
+			const opts = getOpts(_)
 			const ids = await domainIds(domain)
-			return sizes.get(ids, sorting, type, range, limit, dateDetails)
+			return sizes.get(ids, sorting, type, range, limit, dateDetails, opts)
 
 		}),
-		languages: pipe(requireAuth, async (domain, { sorting, range, limit }, { dateDetails }) => {
+		languages: pipe(requireAuth, async (domain, _, { dateDetails }) => {
 
+			const { sorting, range, limit } = _
+			const opts = getOpts(_)
 			const ids = await domainIds(domain)
-			return languages.get(ids, sorting, range, limit, dateDetails)
+			return languages.get(ids, sorting, range, limit, dateDetails, opts)
 
 		})
 	},

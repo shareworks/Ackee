@@ -79,6 +79,10 @@ module.exports = gql`
 		Identifies the date and time when the object was updated.
 		"""
 		updated: DateTime!
+    """
+		Customized: Organization id the user is part of
+		"""
+		organization: ID
 	}
 
 	input CreateRecordInput {
@@ -142,6 +146,10 @@ module.exports = gql`
 		Height of the browser used by the user to visit the site.
 		"""
 		browserHeight: UnsignedInt
+		"""
+		Customized: Organization id the user is part of
+		"""
+		organization: ID
 	}
 
 	type CreateRecordPayload {
@@ -171,5 +179,12 @@ module.exports = gql`
 		Update an existing record to track the duration of a visit.
 		"""
 		updateRecord(id: ID!): UpdateRecordPayload!
+	}
+	
+  type Query {
+		"""
+		Customized: Data of all existing records.
+		"""
+		records: [Record!]
 	}
 `

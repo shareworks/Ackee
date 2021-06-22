@@ -10,32 +10,36 @@ module.exports = gql`
 		"""
 		Number of visitors currently on your site.
 		"""
-		activeVisitors: UnsignedInt!
+		activeVisitors( organization: ID ): UnsignedInt!
 		"""
 		Average number of visitors per day during the last 14 days.
 		"""
-		averageViews: UnsignedInt!
+		averageViews( organization: ID, minDate: DateTime, maxDate: DateTime ):  UnsignedInt!
 		"""
 		Average visit duration of the last 14 days in milliseconds.
 		"""
-		averageDuration: UnsignedInt!
+		averageDuration( organization: ID, minDate: DateTime, maxDate: DateTime ):  UnsignedInt!
 		"""
 		Number of unique views today.
 		"""
-		viewsToday: UnsignedInt!
+		viewsToday( organization: ID ):  UnsignedInt!
 		"""
 		Number of unique views this month.
 		"""
-		viewsMonth: UnsignedInt!
+		viewsMonth( organization: ID ):  UnsignedInt!
 		"""
 		Number of unique views this year.
 		"""
-		viewsYear: UnsignedInt!
+		viewsYear( organization: ID ):  UnsignedInt!
+    """
+		Number of unique views during the given date range.
+		"""
+		views( organization: ID, minDate: DateTime, maxDate: DateTime ):  UnsignedInt!
 	}
 
 	type Query {
 		"""
-		Facts of all domains combined. Usually simple data that can be represented in one value.
+		Customized: Facts of (all or 1) domains / organization combined. Usually simple data that can be represented in one value.
 		"""
 		facts: Facts!
 	}

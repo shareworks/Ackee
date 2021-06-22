@@ -8,11 +8,11 @@ const intervals = require('../constants/intervals')
 const createArray = require('../utils/createArray')
 const matchesDate = require('../utils/matchesDate')
 
-const get = async (ids, interval, limit, dateDetails) => {
+const get = async (ids, interval, limit, dateDetails, opts = {}) => {
 
 	const aggregation = (() => {
 
-		return aggregateDurations(ids, interval, limit, dateDetails)
+		return aggregateDurations(ids, interval, limit, dateDetails, opts)
 
 	})()
 
@@ -24,7 +24,7 @@ const get = async (ids, interval, limit, dateDetails) => {
 
 		return createArray(limit).map((_, index) => {
 
-			const date = dateDetails.lastFnByInterval(interval)(index)
+			const date = dateDetails.lastFnByInterval(interval)(index, opts.maxDate)
 
 			// Database entries include the day, month and year in the
 			// timezone of the user. We therefore need to match it against a

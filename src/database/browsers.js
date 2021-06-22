@@ -7,19 +7,19 @@ const aggregateRecentRecords = require('../aggregations/aggregateRecentRecords')
 const sortings = require('../constants/sortings')
 const constants = require('../constants/browsers')
 
-const get = async (ids, sorting, type, range, limit, dateDetails) => {
+const get = async (ids, sorting, type, range, limit, dateDetails, opts = {}) => {
 
 	const aggregation = (() => {
 
 		if (type === constants.BROWSERS_TYPE_NO_VERSION) {
-			if (sorting === sortings.SORTINGS_TOP) return aggregateTopRecords(ids, [ 'browserName' ], range, limit, dateDetails)
-			if (sorting === sortings.SORTINGS_NEW) return aggregateNewRecords(ids, [ 'browserName' ], limit)
-			if (sorting === sortings.SORTINGS_RECENT) return aggregateRecentRecords(ids, [ 'browserName' ], limit)
+			if (sorting === sortings.SORTINGS_TOP) return aggregateTopRecords(ids, [ 'browserName' ], range, limit, dateDetails, false, opts)
+			if (sorting === sortings.SORTINGS_NEW) return aggregateNewRecords(ids, [ 'browserName' ], limit, false, opts)
+			if (sorting === sortings.SORTINGS_RECENT) return aggregateRecentRecords(ids, [ 'browserName' ], limit, false, opts)
 		}
 		if (type === constants.BROWSERS_TYPE_WITH_VERSION) {
-			if (sorting === sortings.SORTINGS_TOP) return aggregateTopRecords(ids, [ 'browserName', 'browserVersion' ], range, limit, dateDetails)
-			if (sorting === sortings.SORTINGS_NEW) return aggregateNewRecords(ids, [ 'browserName', 'browserVersion' ], limit)
-			if (sorting === sortings.SORTINGS_RECENT) return aggregateRecentRecords(ids, [ 'browserName', 'browserVersion' ], limit)
+			if (sorting === sortings.SORTINGS_TOP) return aggregateTopRecords(ids, [ 'browserName', 'browserVersion' ], range, limit, dateDetails, false, opts)
+			if (sorting === sortings.SORTINGS_NEW) return aggregateNewRecords(ids, [ 'browserName', 'browserVersion' ], limit, false, opts)
+			if (sorting === sortings.SORTINGS_RECENT) return aggregateRecentRecords(ids, [ 'browserName', 'browserVersion' ], limit, false, opts)
 		}
 
 	})()

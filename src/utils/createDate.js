@@ -22,15 +22,15 @@ module.exports = (userTimeZone = serverTimeZone) => {
 	const instance = {
 		userTimeZone,
 		// Get a date with an offset
-		lastMilliseconds: (milliseconds) => subMilliseconds(currentDate, milliseconds),
-		lastHours: (hours) => subHours(currentDate, hours),
-		lastDays: (days) => subDays(currentDate, days),
-		lastMonths: (months) => subMonths(currentDate, months),
-		lastYears: (years) => subYears(currentDate, years),
+		lastMilliseconds: (milliseconds, maxDate) => subMilliseconds((maxDate || currentDate), milliseconds),
+		lastHours: (hours, maxDate) => subHours((maxDate || currentDate), hours),
+		lastDays: (days, maxDate) => subDays((maxDate || currentDate), days),
+		lastMonths: (months, maxDate) => subMonths((maxDate || currentDate), months),
+		lastYears: (years, maxDate) => subYears((maxDate || currentDate), years),
 		// Get a date with an offset that always includes the whole unit of the given interval and a timezone toleranz
-		includeDays: (days) => subHours(subDays(startOfDay(currentDate), days - 1), timeZoneToleranz),
-		includeMonths: (months) => subHours(subMonths(startOfMonth(currentDate), months - 1), timeZoneToleranz),
-		includeYears: (years) => subHours(subYears(startOfYear(currentDate), years - 1), timeZoneToleranz)
+		includeDays: (days, maxDate) => subHours(subDays(startOfDay((maxDate || currentDate)), days - 1), timeZoneToleranz),
+		includeMonths: (months, maxDate) => subHours(subMonths(startOfMonth((maxDate || currentDate)), months - 1), timeZoneToleranz),
+		includeYears: (years, maxDate) => subHours(subYears(startOfYear((maxDate || currentDate)), years - 1), timeZoneToleranz)
 	}
 
 	// Get the last-function that matches the interval

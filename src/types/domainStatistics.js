@@ -229,7 +229,10 @@ module.exports = gql`
 			"""
 			Number of entries to return. Starts with the current day, month or year depending on the chosen interval.
 			"""
-			limit: Int = 14
+			limit: Int = 14,
+			organization: ID, 
+			minDate: DateTime, 
+			maxDate: DateTime
 		): [View!]
 		"""
 		Pages viewed by your visitors.
@@ -240,7 +243,10 @@ module.exports = gql`
 			"""
 			Number of entries to return.
 			"""
-			limit: Int = 30
+			limit: Int = 30,
+      organization: ID, 
+			minDate: DateTime, 
+			maxDate: DateTime
 		): [Page!]
 		"""
 		Where your visitors are coming from.
@@ -252,7 +258,10 @@ module.exports = gql`
 			"""
 			Number of entries to return.
 			"""
-			limit: Int = 30
+			limit: Int = 30,
+      organization: ID,
+			minDate: DateTime, 
+			maxDate: DateTime
 		): [Referrer!]
 		"""
 		Average visit duration by day, month or year.
@@ -263,6 +272,9 @@ module.exports = gql`
 			Number of entries to return. Starts with the current day, month or year depending on the chosen interval.
 			"""
 			limit: Int = 14
+      organization: ID,
+			minDate: DateTime, 
+			maxDate: DateTime
 		): [Duration!]
 		"""
 		Systems used by your visitors.
@@ -274,7 +286,10 @@ module.exports = gql`
 			"""
 			Number of entries to return.
 			"""
-			limit: Int = 30
+			limit: Int = 30,
+      organization: ID,
+			minDate: DateTime, 
+			maxDate: DateTime
 		): [System!]
 		"""
 		Devices used by your visitors.
@@ -286,7 +301,10 @@ module.exports = gql`
 			"""
 			Number of entries to return.
 			"""
-			limit: Int = 30
+			limit: Int = 30,
+      organization: ID,
+			minDate: DateTime, 
+			maxDate: DateTime
 		): [Device!]
 		"""
 		Browsers used by your visitors.
@@ -298,7 +316,10 @@ module.exports = gql`
 			"""
 			Number of entries to return.
 			"""
-			limit: Int = 30
+			limit: Int = 30,
+      organization: ID,
+			minDate: DateTime, 
+			maxDate: DateTime
 		): [Browser!]
 		"""
 		Screen or browser sizes used by your visitors.
@@ -310,7 +331,10 @@ module.exports = gql`
 			"""
 			Number of entries to return.
 			"""
-			limit: Int = 30
+			limit: Int = 30,
+      organization: ID,
+			minDate: DateTime, 
+			maxDate: DateTime
 		): [Size!]
 		"""
 		Browser languages used by your visitors.
@@ -321,7 +345,10 @@ module.exports = gql`
 			"""
 			Number of entries to return.
 			"""
-			limit: Int = 30
+			limit: Int = 30,
+      organization: ID,
+			minDate: DateTime, 
+			maxDate: DateTime
 		): [Language!]
 	}
 

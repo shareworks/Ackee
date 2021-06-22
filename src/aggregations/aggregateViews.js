@@ -3,7 +3,7 @@
 const intervals = require('../constants/intervals')
 const matchDomains = require('../stages/matchDomains')
 
-module.exports = (ids, unique, interval, limit, dateDetails) => {
+module.exports = (ids, unique, interval, limit, dateDetails, opts = {}) => {
 
 	const aggregation = [
 		matchDomains(ids),
@@ -22,7 +22,18 @@ module.exports = (ids, unique, interval, limit, dateDetails) => {
 		$ne: null
 	}
 
-	aggregation[0].$match.created = { $gte: dateDetails.includeFnByInterval(interval)(limit) }
+	if (opts.organization) {
+		aggregation[0].$match.organization = opts.organization
+	}
+
+	if (opts.minDate || opts.maxDate) {
+		aggregation[0].$match.created = {
+			...opts.minDate && { $gte: new Date(opts.minDate) },
+			...opts.maxDate && { $lt: new Date(opts.maxDate) }
+		}
+	} else {
+		aggregation[0].$match.created = { $gte: dateDetails.includeFnByInterval(interval)(limit) }
+	}
 
 	const dateExpression = { date: '$created', timezone: dateDetails.userTimeZone }
 	const matchDay = [ intervals.INTERVALS_DAILY ].includes(interval)

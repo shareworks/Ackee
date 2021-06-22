@@ -4,17 +4,18 @@ const { utcToZonedTime } = require('date-fns-tz')
 
 const Record = require('../models/Record')
 const aggregateViews = require('../aggregations/aggregateViews')
+const aggregateAllViews = require('../aggregations/aggregateAllViews')
 const constants = require('../constants/views')
 const intervals = require('../constants/intervals')
 const createArray = require('../utils/createArray')
 const matchesDate = require('../utils/matchesDate')
 
-const get = async (ids, type, interval, limit, dateDetails) => {
+const get = async (ids, type, interval, limit, dateDetails, opts = {}) => {
 
 	const aggregation = (() => {
 
-		if (type === constants.VIEWS_TYPE_UNIQUE) return aggregateViews(ids, true, interval, limit, dateDetails)
-		if (type === constants.VIEWS_TYPE_TOTAL) return aggregateViews(ids, false, interval, limit, dateDetails)
+		if (type === constants.VIEWS_TYPE_UNIQUE) return aggregateViews(ids, true, interval, limit, dateDetails, opts)
+		if (type === constants.VIEWS_TYPE_TOTAL) return aggregateViews(ids, false, interval, limit, dateDetails, opts)
 
 	})()
 
@@ -26,7 +27,7 @@ const get = async (ids, type, interval, limit, dateDetails) => {
 
 		return createArray(limit).map((_, index) => {
 
-			const date = dateDetails.lastFnByInterval(interval)(index)
+			const date = dateDetails.lastFnByInterval(interval)(index, opts.maxDate)
 
 			// Database entries include the day, month and year in the
 			// timezone of the user. We therefore need to match it against a
@@ -55,9 +56,28 @@ const get = async (ids, type, interval, limit, dateDetails) => {
 	return enhance(
 		await Record.aggregate(aggregation)
 	)
+}
 
+const all = async (ids, type, interval, limit, dateDetails, opts = {}) => {
+
+	const enhance = (entries) => {
+		const entry = entries[0]
+		return entry == null ? 0 : entry.count
+	}
+
+	const aggregation = (() => {
+
+		if (type === constants.VIEWS_TYPE_UNIQUE) return aggregateAllViews(ids, true, interval, limit, dateDetails, opts)
+		if (type === constants.VIEWS_TYPE_TOTAL) return aggregateAllViews(ids, false, interval, limit, dateDetails, opts)
+
+	})()
+
+	return enhance(
+		await Record.aggregate(aggregation)
+	)
 }
 
 module.exports = {
-	get
+	get,
+	all
 }

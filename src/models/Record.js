@@ -17,6 +17,13 @@ const schema = new mongoose.Schema({
 		type: String,
 		index: true
 	},
+
+	/** Customized **/
+	organization: {
+		type: mongoose.ObjectId
+	},
+	/** Customized **/
+
 	domainId: {
 		type: String,
 		required: true,
