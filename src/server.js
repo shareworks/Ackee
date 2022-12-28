@@ -75,7 +75,7 @@ const attachCorsHeaders = (fn) => (req, res) => {
 	if (matchingOrigin != null) {
 		res.setHeader('Access-Control-Allow-Origin', matchingOrigin)
 		res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, OPTIONS')
-		res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Time-Zone')
+		res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Time-Zone, X-CSRF-TOKEN')
 		res.setHeader('Access-Control-Allow-Credentials', 'true')
 	}
 
