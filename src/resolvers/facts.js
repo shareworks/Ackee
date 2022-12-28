@@ -65,8 +65,6 @@ module.exports = {
 
 			return entries[0].count
 		}),
-
-		}),
 		views: pipe(requireAuth, async (domain, _, { dateDetails }) => {
 			const opts = getOpts(_)
 			const ids = await domainIds(domain)
