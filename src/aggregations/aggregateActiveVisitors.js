@@ -8,15 +8,15 @@ module.exports = (ids, dateDetails, opts = {}) => {
 	const aggregation = [
 		matchDomains(ids),
 		{
-			$count: 'count'
-		}
+			$count: 'count',
+		},
 	]
 
 	// A user that navigates between pages will increase the counter temporary.
 	// It's therefore importend to count unique views only.
 	aggregation[0].$match.clientId = {
 		$exists: true,
-		$ne: null
+		$ne: null,
 	}
 
 	if (opts.organization) {
@@ -30,5 +30,4 @@ module.exports = (ids, dateDetails, opts = {}) => {
 	aggregation[0].$match.updated = { $gte: dateDetails.lastMilliseconds(DURATIONS_INTERVAL * 2) }
 
 	return aggregation
-
 }

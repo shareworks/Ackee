@@ -11,19 +11,26 @@ const sizes = require('../database/sizes')
 const languages = require('../database/languages')
 const pipe = require('../utils/pipe')
 const domainIds = require('../utils/domainIds')
+const recursiveId = require('../utils/recursiveId')
 const requireAuth = require('../middlewares/requireAuth')
 const getOpts = require('../utils/getOpts')
 
 module.exports = {
 	DomainStatistics: {
-		views: pipe(requireAuth, async (domain, _, { dateDetails }) => {
-
-			const { type, interval, limit } = _
-			const opts = getOpts(_)
+		id: pipe(requireAuth, async (domain) => {
 			const ids = await domainIds(domain)
-			return views.get(ids, type, interval, (opts.dayDifference || limit), dateDetails, opts)
 
+			// Provide a static fallback id when there're no domains to create a recursive id from
+			if (ids.length === 0) return 'eaf55ae8-29b8-448f-b45c-85e17fbfc8ba'
+
+			return recursiveId(ids)
 		}),
+		views: pipe(requireAuth, async (domain, _, { dateDetails }) => {
+      const { type, interval, limit } = _
+      const opts = getOpts(_)
+      const ids = await domainIds(domain)
+      return views.get(ids, type, interval, (opts.dayDifference || limit), dateDetails, opts)
+    }),
 		pages: pipe(requireAuth, async (domain, _, { dateDetails }) => {
 
 			const { sorting, range, limit } = _

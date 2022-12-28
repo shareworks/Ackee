@@ -11,18 +11,18 @@ module.exports = (ids, properties, range, limit, dateDetails, or, opts = {}) => 
 			$group: {
 				_id: {},
 				count: {
-					$sum: 1
-				}
-			}
+					$sum: 1,
+				},
+			},
 		},
 		{
 			$sort: {
-				count: -1
-			}
+				count: -1,
+			},
 		},
 		{
-			$limit: limit
-		}
+			$limit: limit,
+		},
 	]
 
 	if (opts.organization) {
@@ -33,7 +33,7 @@ module.exports = (ids, properties, range, limit, dateDetails, or, opts = {}) => 
 		if (or === true) {
 			aggregation[0].$match['$or'] = [
 				...(aggregation[0].$match['$or'] || []),
-				{ [property]: { $ne: null } }
+				{ [property]: { $ne: null } },
 			]
 		} else {
 			aggregation[0].$match[property] = { $ne: null }
@@ -65,5 +65,4 @@ module.exports = (ids, properties, range, limit, dateDetails, or, opts = {}) => 
 	}
 
 	return aggregation
-
 }

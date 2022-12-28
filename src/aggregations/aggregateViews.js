@@ -11,15 +11,15 @@ module.exports = (ids, unique, interval, limit, dateDetails, opts = {}) => {
 			$group: {
 				_id: {},
 				count: {
-					$sum: 1
-				}
-			}
-		}
+					$sum: 1,
+				},
+			},
+		},
 	]
 
 	if (unique === true) aggregation[0].$match.clientId = {
 		$exists: true,
-		$ne: null
+		$ne: null,
 	}
 
 	if (opts.organization) {
@@ -45,5 +45,4 @@ module.exports = (ids, unique, interval, limit, dateDetails, opts = {}) => {
 	if (matchYear === true) aggregation[1].$group._id.year = { $year: dateExpression }
 
 	return aggregation
-
 }

@@ -17,10 +17,10 @@ module.exports = (ids, interval, limit, dateDetails, opts) => {
 			$group: {
 				_id: {},
 				count: {
-					$avg: '$duration'
-				}
-			}
-		}
+					$avg: '$duration',
+				},
+			},
+		},
 	]
 
 	if (opts.organization) {
@@ -46,5 +46,4 @@ module.exports = (ids, interval, limit, dateDetails, opts) => {
 	if (matchYear === true) aggregation[4].$group._id.year = { $year: dateExpression }
 
 	return aggregation
-
 }

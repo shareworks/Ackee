@@ -8,18 +8,18 @@ module.exports = (ids, properties, limit, or, opts = {}) => {
 		matchDomains(ids),
 		{
 			$sort: {
-				created: -1
-			}
+				created: -1,
+			},
 		},
 		{
 			$project: {
 				_id: {},
-				created: '$created'
-			}
+				created: '$created',
+			},
 		},
 		{
-			$limit: limit
-		}
+			$limit: limit,
+		},
 	]
 
 	if (opts.organization) {
@@ -30,7 +30,7 @@ module.exports = (ids, properties, limit, or, opts = {}) => {
 		if (or === true) {
 			aggregation[0].$match['$or'] = [
 				...(aggregation[0].$match['$or'] || []),
-				{ [property]: { $ne: null } }
+				{ [property]: { $ne: null } },
 			]
 		} else {
 			aggregation[0].$match[property] = { $ne: null }
@@ -39,5 +39,4 @@ module.exports = (ids, properties, limit, or, opts = {}) => {
 	})
 
 	return aggregation
-
 }
